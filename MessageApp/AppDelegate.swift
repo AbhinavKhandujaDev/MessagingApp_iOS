@@ -7,15 +7,28 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    
     var window: UIWindow?
 
-
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+        // Sets background to a blank/empty image
+//        UINavigationBar.appearance().setBackgroundImage(UIImage(), for: .default)
+//        // Sets shadow (line below the bar) to a blank image
+//        UINavigationBar.appearance().shadowImage = UIImage()
+//        // Sets the translucent background color
+//        UINavigationBar.appearance().backgroundColor = .clear
+//        // Set translucent. (Default value is already true, so this can be removed if desired.)
+//        UINavigationBar.appearance().isTranslucent = true
+        FirebaseApp.configure()
+        if UserDefs.isLoggedIn {
+            frndListVC()
+        }else {
+            logInVC()
+        }
         return true
     }
 
@@ -40,7 +53,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
     }
-
-
+    
+    func frndListVC() {
+        let FriendsVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "FriendsNavViewController")
+        self.window?.rootViewController = FriendsVC
+        self.window?.makeKeyAndVisible()
+    }
+    
+    func logInVC() {
+        let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "LogInPageViewController") as! LogInPageViewController
+        self.window?.rootViewController = vc
+        self.window?.makeKeyAndVisible()
+    }
 }
 
